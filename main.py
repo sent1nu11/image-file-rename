@@ -16,7 +16,7 @@ def get_date_taken(path):
         print(f"Error reading EXIF from {path}: {e}")
     return None
 
-def rename_photos_by_date(folder_path):
+def rename_photos_by_datetime(folder_path):
     images = []
 
     for filename in os.listdir(folder_path):
@@ -29,19 +29,11 @@ def rename_photos_by_date(folder_path):
     # Sort by date taken
     images.sort(key=lambda x: x[0])
 
-    last_date = None
-    count = 1
     for date_taken, full_path, original_filename in images:
-        date_str = date_taken.strftime("%Y-%m-%d")
-
-        # Reset counter if new date
-        if date_str != last_date:
-            count = 1
-            last_date = date_str
-
-        # Preserve original file extension
+        # Format: YYYY-MM-DD-HHMMSS
+        date_str = date_taken.strftime("%Y-%m-%d-%H%M%S")
         ext = os.path.splitext(original_filename)[1].lower()
-        new_name = f"{date_str}_{count:03d}{ext}"
+        new_name = f"{date_str}{ext}"
         new_path = os.path.join(folder_path, new_name)
 
         if os.path.abspath(full_path) != os.path.abspath(new_path):
@@ -51,11 +43,10 @@ def rename_photos_by_date(folder_path):
             else:
                 print(f"Conflict: {new_name} already exists. Skipping.")
         else:
-            print(f"Skipping: {original_filename} (already correctly named)")
-        count += 1
+            print(f"Skipping: {original_filename} (already named correctly)")
 
 
 # ✅ Set your photo folder path here
 photo_folder = r"C:\photos"  # Change this!
-rename_photos_by_date(photo_folder)
+rename_photos_by_datetime(photo_folder)
 
