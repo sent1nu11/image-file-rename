@@ -1,4 +1,5 @@
 Rename Images with Date Photo Taken (similar to https://github.com/matthewrenze/rename-images/tree/master)
+
 Purpose: Renames image files in a folder based on date photo taken from EXIF metadata
 
 Behavior:
